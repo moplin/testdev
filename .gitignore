@@ -9,11 +9,21 @@ nbproject
 .project
 .settings
 
+# sublime text project / workspace files
+*.sublime-project
+*.sublime-workspace
+
 # windows thumbnail cache
 Thumbs.db
 
 # composer vendor dir
-/vendor
+vendor
+
+# ignore runtime
+runtime
+
+# ignore assets
+assets
 
 # composer itself is not needed
 composer.phar
@@ -26,5 +36,6 @@ phpunit.phar
 # local phpunit config
 /phpunit.xml
 
-tests/_output/*
-tests/_support/_generated
+# NPM packages
+/node_modules
+.env
