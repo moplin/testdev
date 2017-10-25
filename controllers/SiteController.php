@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\ArticlesA;
 use yii\helpers\VarDumper;
 use yii\web\Cookie;
 
@@ -16,6 +17,9 @@ use yii\web\Cookie;
 
 class SiteController extends Controller
 {
+
+    //public $layout=false;
+
     /**
      * @inheritdoc
      */
@@ -65,12 +69,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-
         $var = ['waxa','waxa1','waxa2'];
         VarDumper::dump($var);
         Yii::warning('here the var', var_export($var,true));
 
-        return $this->render('index');
+        $articles = ArticlesA::find()->where(['id' => 1])->one();
+        $lang = $this->module->language;
+        return $this->render('index',['articles'=>$articles, 'lang'=>$lang]);
     }
 
     /**
@@ -80,6 +85,7 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -88,6 +94,8 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         }
+
+        $this->layout = false;
         return $this->render('login', [
             'model' => $model,
         ]);

@@ -1,13 +1,12 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
 
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -26,6 +25,14 @@ AppAsset::register($this);
         .square-thumb {
             width: 150px;
             height: 150px;
+        }
+        .btn-fix {
+            color: white !important;
+            padding: 13px 12px !important;
+            text-decoration: none !important;
+        }
+        .btn-fix:hover {
+            color: yellow !important;
         }
     </style>
     <?php $this->head() ?>
@@ -50,7 +57,13 @@ AppAsset::register($this);
             ['label' => 'About', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+                //['label' => 'Login', 'url' => ['/site/login']]
+
+                '<li>'. Html::button('Login', [
+                    'value' => '/site/login', 
+                    'class' => 'btn btn-link btn-fix', 
+                    'id' => 'modalButton']) .'</li>'
+
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')

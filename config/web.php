@@ -10,6 +10,13 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
+        'assetManager' => [
+            'bundles' => [
+                'yii\web\JqueryAsset' => [
+                    'jsOptions' => [ 'position' => \yii\web\View::POS_HEAD ],
+                ],
+            ],
+        ],
         'request' => [
             'enableCookieValidation' => true, //<---to flase to make it work
             'enableCsrfValidation' => true,
