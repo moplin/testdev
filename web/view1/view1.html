@@ -1,5 +1,64 @@
-<p>Setting cookie</p>
+<p>form</p>
 
-<pre>
-:{{vm.myToken |json}}  
-</pre>
+
+<h3>{{v.title}}</h3>
+
+
+
+<form id="paymentForm" name="paymentForm" novalidate>
+    <input type="hidden" id="kushki-token" class="form-control" name="kushki-token" ng-model="vm.kToken">
+
+    Tu tarjeta es: {{vm.type}}
+
+    <div class="form-group">
+        <label for="card-name">Nombre</label>
+        <input type="text"
+               id="card-name"
+               name="name"
+               class="form-control" ng-model="vm.cardData.name" required>
+        <p ng-show="paymentForm.name.$error.required">
+            You must enter a credit card number!
+        </p>
+
+    </div>
+    <div class="form-group">
+        <label for="card-number">Número</label>
+        <input type="text" id="card-number" class="form-control"
+               name="cardNumber"
+               ng-model="vm.cardData.number"
+               cc-number cc-type="cardType"
+               ng-required="true">
+        <p ng-show="paymentForm.cardNumber.$invalid && paymentForm.cardNumber.$ccEagerType">
+            Looks like you're typing a {{paymentForm.cardNumber.$ccEagerType}} number!
+        </p>
+        <p ng-show="paymentForm.cardNumber.$valid">
+            Yes, that looks like a valid {{paymentForm.cardNumber.$ccType}} number!
+        </p>
+        <p ng-show="paymentForm.cardNumber.$error.required">
+            You must enter a credit card number!
+        </p>
+    </div>
+    <div class="form-group">
+        <label for="card-cvc">CVV</label>
+        <input type="text" id="card-cvc" class="form-control" ng-model="vm.cardData.cvc">
+    </div>
+    <div class="form-group">
+        <label for="expiry-month">Mes</label>
+        <input type="text" id="expiry-month" class="form-control" ng-model="vm.cardData.expiryMonth">
+    </div>
+    <div class="form-group">
+        <label for="expiry-year">Año</label>
+        <input type="text" id="expiry-year" class="form-control" ng-model="vm.cardData.expiryYear">
+    </div>
+    <button type="button" class="btn btn-primary" ng-click="vm.enviar(vm.cardData)">ENVIAR</button>
+</form>
+
+<br>
+<hr>
+
+<div hljs hljs-language="json" hljs-interpolate="true">
+{{vm.kToken | json}}
+{{vm.rsp | json}}
+{{vm.cardData | json}}
+{{paymentForm.cardNumber | json}}
+</div>

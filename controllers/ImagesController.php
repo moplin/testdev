@@ -28,36 +28,36 @@ class ImagesController extends \yii\web\Controller
 
         $newWidth = 350;
         $newHeight = 250;
-        $img_size = 500;
-
         $img1 = Image::getImagine()->open($fileName)->thumbnail(new Box($newWidth, $newHeight));
         $img1->save($save_path.'crop-photo1.jpg', ['quality' => 80]);
-        $img_size = 550;
+
 
         //$img1a = Image::getImagine()->open($fileName)->thumbnail(new Box($newWidth, $newHeight));
         $img1a = Image::getImagine()->open($fileName); 
         $size = $img1a->getSize();
 
-        if ($size->getWidth() < $img_size ) {
+        if ($size->getWidth() < $size->getHeight() ) {
             //Height based
             static::console_log(['1W es <',$size->getWidth(), $size->getHeight()]);
-
-            Image::resize($fileName, 650, null, true, true)
+            $tmp_img = Image::resize($fileName, $newHeight, null, true, true)
             ->save(Yii::getAlias(Yii::getAlias('@app/web/images/tmp.jpg')), ['quality' => 80]);
 
-            Image::crop(Yii::getAlias('@app/web/images/tmp.jpg'), $newWidth, $newHeight, [0,$size->getHeight()/2])
+            $tmp_size = $tmp_img->getSize();
+            $correction_index = $tmp_size->getHeight() - $newHeight;
+            $y_coordinate = $correction_index / 2;
+            Image::crop(Yii::getAlias('@app/web/images/tmp.jpg'), $newWidth, $newHeight, [0,$y_coordinate])
             ->save(Yii::getAlias($save_path.'crop-photo1a.jpg'), ['quality' => 80]);
 
         } else {
             //Width based
             static::console_log(['1W es >',$size->getWidth(), $size->getHeight(), $size->getWidth()/2]);
-
-            Image::resize($fileName, null, 650, true, true)
+            $tmp_img = Image::resize($fileName, null, $newWidth, true, true)
             ->save(Yii::getAlias(Yii::getAlias('@app/web/images/tmp.jpg')), ['quality' => 80]);
-
-            Image::crop(Yii::getAlias('@app/web/images/tmp.jpg'), $newWidth, $newHeight, [ $size->getWidth()/2 ,0 ])
+            $tmp_size = $tmp_img->getSize();
+            $correction_index = $tmp_size->getWidth() - $newWidth;
+            $x_coordinate = $correction_index / 2;
+            Image::crop(Yii::getAlias('@app/web/images/tmp.jpg'), $newWidth, $newHeight, [ $x_coordinate ,0 ])
             ->save(Yii::getAlias($save_path.'crop-photo1a.jpg'), ['quality' => 80]);
-            
         }
 
 
@@ -72,24 +72,23 @@ class ImagesController extends \yii\web\Controller
         $img2a = Image::getImagine()->open($fileName1); 
         $size = $img2a->getSize();
 
-        if ($size->getWidth() < $img_size ) {
-            
-            static::console_log(['2W es <',$size->getWidth(), $size->getHeight()]);
-
-            Image::resize($fileName1, 650, null, true, true)
+        if ($size->getWidth() < $size->getHeight() ) {
+            static::console_log(['1W es <',$size->getWidth(), $size->getHeight()]);
+            $tmp_img = Image::resize($fileName1, $newHeight, null, true, true)
             ->save(Yii::getAlias(Yii::getAlias('@app/web/images/tmp.jpg')), ['quality' => 80]);
-
-            Image::crop(Yii::getAlias('@app/web/images/tmp.jpg'), $newWidth, $newHeight, [0,$size->getHeight()/2])
+            $tmp_size = $tmp_img->getSize();
+            $correction_index = $tmp_size->getHeight() - $newHeight;
+            $y_coordinate = $correction_index / 2;
+            Image::crop(Yii::getAlias('@app/web/images/tmp.jpg'), $newWidth, $newHeight, [0,$y_coordinate])
             ->save(Yii::getAlias($save_path.'crop-photo2a.jpg'), ['quality' => 80]);
-        
         } else {
-            
-            static::console_log(['2W es >',$size->getWidth(), $size->getHeight()]);
-            
-            Image::thumbnail($fileName1, null, 500)
+            static::console_log(['1W es >',$size->getWidth(), $size->getHeight(), $size->getWidth()/2]);
+            $tmp_img = Image::resize($fileName1, null, $newWidth, true, true)
             ->save(Yii::getAlias(Yii::getAlias('@app/web/images/tmp.jpg')), ['quality' => 80]);
-
-            Image::crop(Yii::getAlias('@app/web/images/tmp.jpg'), $newWidth, $newHeight, [0,0])
+            $tmp_size = $tmp_img->getSize();
+            $correction_index = $tmp_size->getWidth() - $newWidth;
+            $x_coordinate = $correction_index / 2;
+            Image::crop(Yii::getAlias('@app/web/images/tmp.jpg'), $newWidth, $newHeight, [ $x_coordinate ,0 ])
             ->save(Yii::getAlias($save_path.'crop-photo2a.jpg'), ['quality' => 80]);
         }
 

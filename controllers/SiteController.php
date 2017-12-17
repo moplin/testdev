@@ -95,7 +95,7 @@ class SiteController extends Controller
             return $this->goBack();
         }
 
-        $this->layout = false;
+        $this->layout = 'simple';
         return $this->render('login', [
             'model' => $model,
         ]);

@@ -7,6 +7,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use yii\helpers\Url;
+use yii\bootstrap\Modal;
 
 AppAsset::register($this);
 ?>
@@ -78,6 +79,32 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
+
+<?php
+
+
+    Modal::begin([
+        'header' => false,
+        'id' => 'modal',
+        'size' => 'modal-md'
+    ]);
+        echo "<div id='modalContent'>";
+        echo "</div>";
+    Modal::end();
+
+?>
+<script>
+    $( document ).ready(function() {
+        console.log( "ready!" );
+        $(function () {
+            $('#modalButton').click(function () {
+                $('#modal').modal('show')
+                    .find('#modalContent')
+                    .load($(this).attr('value'));
+            });
+        });
+    });
+</script>
 
     <div class="container">
         <?= Breadcrumbs::widget([

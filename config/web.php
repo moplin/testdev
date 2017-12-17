@@ -9,7 +9,14 @@ $config = [
     'sourceLanguage' => 'es_Ec',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+
+
+
     'components' => [
+        'jwt' => [
+            'class' => 'sizeg\jwt\Jwt',
+            'key' => 'secret',
+        ],
         'assetManager' => [
             'bundles' => [
                 'yii\web\JqueryAsset' => [
@@ -68,13 +75,23 @@ $config = [
         
         'urlManager' => [
             'enablePrettyUrl' => true,
+            'enableStrictParsing' => false,
             'showScriptName' => false,
             'rules' => [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'articles'],
+                //['class' => 'yii\rest\UrlRule', 'controller' => ['v1/jwt']],
             ],
         ],
-       
+
     ],
+
+    'modules' => [
+        'v1' => [
+            'class' => 'app\modules\v1\V1',
+        ],
+    ],
+
+
     'params' => $params,
 ];
 
@@ -91,6 +108,14 @@ if (YII_ENV_DEV) {
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
         'allowedIPs' => ['127.0.0.1', '::1'],
+        'generators' => [
+            'adminMainFrame' => [
+                'class' => 'yii2tech\admin\gii\mainframe\Generator'
+            ],
+            'adminCrud' => [
+                'class' => 'yii2tech\admin\gii\crud\Generator'
+            ]
+        ],
     ];
 }
 

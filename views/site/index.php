@@ -1,51 +1,42 @@
 <?php
 use yii\widgets\Pjax;
-use yii\bootstrap\Modal;
+
 use yii\helpers\Html;
 use yii\helpers\Url;
 
 $this->title = 'My Yii Application';
+
+
+
+
+
+$events = array();
+//Testing
+$Event = new \yii2fullcalendar\models\Event();
+$Event->id = 1;
+$Event->title = 'Testing';
+$Event->start = date('Y-m-d\TH:i:s\Z');
+$events[] = $Event;
+
+$Event = new \yii2fullcalendar\models\Event();
+$Event->id = 2;
+$Event->title = 'Wobba Lobba Dub Dub!!';
+$Event->start = date('Y-m-d\TH:i:s\Z',strtotime('tomorrow 6am'));
+$events[] = $Event;
+
 ?>
 <div class="site-index">
 
     <div class="body-content">
-    <?php
 
 
-    Modal::begin([
-        'header' => false,
-        'id' => 'modal',
-        'size' => 'modal-md'
-    ]);
-        echo "<div id='modalContent'>";
-        echo "</div>";
-    Modal::end();
 
-?>
+<?= \yii2fullcalendar\yii2fullcalendar::widget(array(
+    'events'=> $events,
+));?>
 
-<div class="company-form">
-<p>
-<?php //Html::button('<i class="glyphicon glyphicon-plus"></i> LOGINMODAL', [
-    //'value' => Url::to('site/login'), 
-    ////'class' => 'btn btn-add-al', 
-    //'id' => 'modalButton']) ?></p>
-
-<br>
-<br>
-<br>
-
-<script>
-    $( document ).ready(function() {
-        console.log( "ready!" );
-        $(function () {
-            $('#modalButton').click(function () {
-                $('#modal').modal('show')
-                    .find('#modalContent')
-                    .load($(this).attr('value'));
-            });
-        });
-    });
-</script>
 
     </div>
+
+
 </div>
